@@ -89,42 +89,89 @@
             box-shadow: 0 0 0 3px var(--copper-gold);
         }
 
-        .slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
+        /* ====== UPDATED: glass-nav + modern fading slider ====== */
 
-.moving-text {
-    display: inline-block; /* Make the span an inline-block for animation */
-    color: #DAA520; /* Set the gold color */
-     animation: moveRight 8s linear infinite, shine 1.5s linear infinite; /* Apply the animation */
-    white-space: nowrap; /* Prevent text wrapping */
-}
+        /* Glassmorphism Nav */
+        .glass-nav {
+            background: rgba(0, 51, 102, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
 
+        /* Slider container (keeps existing markup but uses absolute/fade slides) */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-@keyframes moveRight {
-    0% {
-        transform: translateX(-100%); /* Start off-screen to the left */
-        opacity: 0; /* Start invisible */
-    }
-    50% {
-        opacity: 1; /* Fade in */
-    }
-    100% {
-        transform: translateX(100%); /* Move off-screen to the right */
-        opacity: 0; /* Fade out */
-    }
-}
+        /* Slides wrapper becomes full-bleed positioning area */
+        .slides {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* allow controls above slides */
+        }
 
-@keyframes shine {
-    0%, 100% {
-        text-shadow: 0 0 5px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.5);
-    }
-    50% {
-        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 1);
-    }
-}
+        /* Each slide is absolutely positioned and fades in/out */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* Dark overlay so text pops on top of images (if used inside slide) */
+        .slide-overlay {
+            background: linear-gradient(to right, rgba(0, 51, 102, 0.9), rgba(0, 51, 102, 0.4));
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        /* Keep moving-text behavior */
+        .moving-text {
+            display: inline-block;
+            color: #DAA520;
+            animation: moveRight 8s linear infinite, shine 1.5s linear infinite;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        @keyframes moveRight {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shine {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 1);
+            }
+        }
 
     </style>
     <script>
@@ -259,8 +306,94 @@
                 </button>
             </div>
         </div>
+    </section> <!-- end hero-value-proposition -->
+
+    <!-- 2. About Us Section -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center ssg-shining-text">
+                About The Group
+            </h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Overview and Mission -->
+                <div class="bg-primary-dark-blue/5 p-6 md:p-10 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark-blue">Overview & Mission</h3>
+                    <p class="mb-4 text-charcoal leading-relaxed">
+                        Founded in July 2022 and proudly 100% Liberian-owned, SSG is a dynamic business conglomerate headquartered in Chubor, Montserrado County. Our mission is to empower communities and drive national development through reliable, quality, and affordable services across a wide range of sectors.
+                    </p>
+                    <p class="text-charcoal leading-relaxed font-medium">
+                        We are committed to delivering trustworthy, innovative, and people-centered services that improve lives and build national capacity.
+                    </p>
+                </div>
+
+                <!-- Vision, Values & Promise -->
+                <div class="space-y-6">
+                    <!-- Vision -->
+                    <div class="p-6 rounded-xl border border-copper-gold/50 bg-white shadow-md">
+                        <h3 class="text-2xl font-semibold mb-3 text-copper-gold flex items-center"><i class="ph ph-eye text-3xl mr-3"></i> Our Vision</h3>
+                        <p class="text-charcoal">To be Liberia's most trusted and diversified business group—a shining example of integrity, innovation, and excellence.</p>
+                    </div>
+                    <!-- Promise -->
+                    <div class="p-6 rounded-xl border border-copper-gold/50 bg-white shadow-md">
+                        <h3 class="text-2xl font-semibold mb-3 text-copper-gold flex items-center"><i class="ph ph-handshake text-3xl mr-3"></i> Our Promise</h3>
+                        <p class="text-charcoal">We promise to deliver trustworthy, innovative, and people-centered services that improve lives and build national capacity.</p>
+                    </div>
+                    <!-- Values -->
+                    <div class="p-6 rounded-xl border border-copper-gold/50 bg-white shadow-md">
+                        <h3 class="text-2xl font-semibold mb-3 text-copper-gold flex items-center"><i class="ph ph-star text-3xl mr-3"></i> Core Values</h3>
+                        <p class="text-charcoal font-medium">Integrity, Quality, Community Impact, and Innovation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-    
+
+    <!-- 3. Leadership/Board Section (Deep Blue Background) -->
+        <section id="leadership" class="deep-blue-textured py-16 md:py-24 bg-primary-dark-blue text-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl md:text-5xl font-bold mb-12 text-center ssg-shining-text">
+                    Leadership & Governance
+                </h2>
+                <p class="text-center text-silver-tagline max-w-3xl mx-auto mb-16">
+                    Our foundation is built on strong governance, unified brand architecture, and a commitment to operational excellence guided by experienced leaders.
+                </p>
+
+                <!-- Updated Leadership Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- General Manager: Heston M. Jackson,II. -->
+                    <div class="text-center bg-white/5 p-6 rounded-xl shadow-lg border border-copper-gold/30 hover:bg-white/10 transition-colors duration-300">
+                        <img src="/Public/IMAGE/Heston M. Jackson,.jpg" alt="General Manager Placeholder" class="rounded-full w-28 h-28 object-cover mx-auto mb-4 border-4 border-copper-gold">
+                        <h3 class="text-xl font-semibold ssg-shining-text">Heston M. Jackson, II.</h3>
+                        <p class="text-sm font-light text-silver-tagline mb-2">General Manager</p>
+                        <p class="text-xs italic text-white/70">"Driving the vision for a brighter Liberia."</p>
+                    </div>
+                    <!-- COO: Emmanuel Freeman -->
+                    <div class="text-center bg-white/5 p-6 rounded-xl shadow-lg border border-copper-gold/30 hover:bg-white/10 transition-colors duration-300">
+                        <img src="./Public/IMAGE/Emmanuel Freeman (COO).jpeg" alt="COO Placeholder" class="rounded-full w-28 h-28 object-cover mx-auto mb-4 border-4 border-copper-gold">
+                        <h3 class="text-xl font-semibold ssg-shining-text">Emmanuel C. Freeman </h3>
+                        <p class="text-sm font-light text-silver-tagline mb-2">Chief Operations Officer (COO)</p>
+                        <p class="text-xs italic text-white/70">"Ensuring operational excellence across all sectors."</p>
+                    </div>
+                    <!-- CFO: Justin Harris -->
+                    <div class="text-center bg-white/5 p-6 rounded-xl shadow-lg border border-copper-gold/30 hover:bg-white/10 transition-colors duration-300">
+                        <img src="./Public/IMAGE/Justin Harris.jpeg" alt="CFO Placeholder" class="rounded-full w-28 h-28 object-cover mx-auto mb-4 border-4 border-copper-gold">
+                        <h3 class="text-xl font-semibold ssg-shining-text">Justin Harris</h3>
+                        <p class="text-sm font-light text-silver-tagline mb-2">Chief Financial Officer (CFO)</p>
+                        <p class="text-xs italic text-white/70">"Sustaining growth with integrity."</p>
+                    </div>
+                    <!-- HR: Tenizee Baryogar -->
+                    <div class="text-center bg-white/5 p-6 rounded-xl shadow-lg border border-copper-gold/30 hover:bg-white/10 transition-colors duration-300">
+                        <img src="./Public/IMAGE/Tenizee Baryogar(HR).jpeg" alt="HR Placeholder" class="rounded-full w-28 h-28 object-cover mx-auto mb-4 border-4 border-copper-gold">
+                        <h3 class="text-xl font-semibold ssg-shining-text">Tenizee Baryogar</h3>
+                        <p class="text-sm font-light text-silver-tagline mb-2">Head of HR & Admin</p>
+                        <p class="text-xs italic text-white/70">"Our people are our greatest star."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- 4. Portfolio/Services Section -->
     <section id="portfolio" class="py-16 md:py-24 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl md:text-5xl font-bold mb-4 text-center ssg-shinning-text">
@@ -381,7 +514,7 @@
 
             <!-- General Merchandise -->
             <div onclick="openModal('General Merchandise', '🛒', 'Sourcing and supplying a wide range of essential goods and products, specializing in reliable procurement and distribution.', {facebook: 'https://facebook.com/SSGMerch', linkedin: 'https://www.linkedin.com/in/the-shinning-star-group-of-companies-ssg2022/', instagram: 'https://www.instagram.com/shinning.star.group247?igsh=OG8ydW5lNmp3MTlh'})" class="cursor-pointer bg-white p-6 rounded-xl shadow-lg border-t-4 border-copper-gold hover:shadow-2xl hover:scale-[1.02] transition-all duration-300">
-                <div class="text-4xl mb-3 text-copper-gold flex items-center justify-center w-12 h-12 rounded-full bg-primary-dark-blue/10"><i class="ph ph-shopping-bag text-2xl"></i></div>
+                <div class="text-4xl mb-3 text-copper-gold flex items-center justify-center w-12 h-12 rounded-full bg-primary-dark-blue/10"><i class="ph ph-basket-simple text-2xl"></i></div>
                 <h3 class="text-xl font-semibold mb-2 text-copper-gold">General Merchandise</h3>
                 <p class="text-sm text-charcoal/80 line-clamp-3">Sourcing and supplying a wide range of essential goods and products, specializing in reliable procurement and distribution.</p>
                 <span class="text-xs text-primary-dark-blue font-medium mt-3 inline-block hover:ssg-shinning-text">View Details →</span>
@@ -639,8 +772,8 @@
             </div>
         </section>
 
-</main>
-     <!-- Footer -->
+
+    <!-- Footer -->
     <footer class="deep-blue-textured bg-primary-dark-blue py-12 md:py-16 text-white border-t-8 border-copper-gold">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 border-b border-white/10 pb-8 mb-8">
@@ -818,30 +951,48 @@
         
          let currentSlide = 0;
 
-    const slides = document.querySelectorAll('.slide');
-    const totalSlides = slides.length;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
 
-    // Function to update the slide position
-    function updateSlidePosition() {
-        const slidesContainer = document.querySelector('.slides');
-        slidesContainer.style.transform = 'translateX(' + (-currentSlide * 100) + '%)';
-    }
+        // Function to update slides using fade (toggle .active)
+        function updateSlidePosition() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+        }
 
-    // Function to go to the next slide
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
+        // Function to go to the next slide
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlidePosition();
+        }
+
+        // Navigation buttons (defensive checks)
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            nextSlide();
+        });
+
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlidePosition();
+        });
+
+        // Automatic slide change every 5 seconds and pause on hover
+        let slideInterval = setInterval(nextSlide, 5000); // 5s for better UX
+
+        const sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+
+            sliderContainer.addEventListener('mouseleave', () => {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        }
+
+        // Initialize first slide visible
         updateSlidePosition();
-    }
 
-    // Event listeners for navigation buttons
-    document.getElementById('nextBtn').addEventListener('click', nextSlide);
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateSlidePosition();
-    });
-
-    // Automatic slide change every 3 seconds
-    setInterval(nextSlide, 3000);
     </script>
   
 
